@@ -5,6 +5,9 @@ class TaskRead(BaseModel):
     id: str
     title: str
 
+    class Config:
+        orm_mode = True
+
 
 class TaskCreate(BaseModel):
     title: str
