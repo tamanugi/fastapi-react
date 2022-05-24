@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 
-from app.core.database import engine
+from app.core import search_engine
 from app.domain.book import routes as book_router
+
+# Opensearch Client setup
+search_engine.set_up()
 
 
 app = FastAPI()

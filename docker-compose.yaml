@@ -32,5 +32,13 @@ services:
     ports:
       - 5432:5432
 
+  search-engine:
+    image: opensearchproject/opensearch:1.3.2
+    environment:
+      - TZ=${OS_TIMEZONE}
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - plugins.security.disabled=true
+
 volumes:
   front_node_modules:
