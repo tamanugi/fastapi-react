@@ -1,8 +1,8 @@
 import { lazyImport } from "@/utils/lazyload";
 
-const { Home } = lazyImport(
-  () => import("@/components/pages/Home/index"),
-  "Home"
+const { BookHome } = lazyImport(
+  () => import("@/features/books/index"),
+  "BookHome"
 );
 
-export const publicRoutes = [{ path: "/", element: <Home /> }];
+export const publicRoutes = [{ path: "/", element: <BookHome /> }];
