@@ -3,8 +3,7 @@ services:
 
   api:
     build:
-      context: ./api
-      dockerfile: Dockerfile
+      context: ./docker/api
     volumes:
       - ./api:/api
       - /var/run/docker.sock:/var/run/docker.sock
