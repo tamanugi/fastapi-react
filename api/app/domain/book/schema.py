@@ -4,10 +4,11 @@ from pydantic import BaseModel, Field
 
 class BookSearch(BaseModel):
     keyword: str | None
-    published_at_ge: str | None
-    published_at_le: str | None
     price_ge: int | None
     price_le: int | None
+    publisher: str | None
+    limit: int = 10
+    page: int = 1
 
 
 class BookRead(BaseModel):
@@ -28,3 +29,12 @@ class BookRead(BaseModel):
 class BookSearchResponse(BaseModel):
     books: list[BookRead]
     count: int
+
+
+class BookAggregation(BaseModel):
+    key: str
+    doc_count: int
+
+
+class BookConditionPublisherResponse(BaseModel):
+    candidates: list[BookAggregation]

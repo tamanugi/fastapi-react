@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts src",
     "format": "prettier --write src/**/*",
-    "generate:aspida": "openapi2aspida",
+    "generate:aspida": "rm -rf src/api && openapi2aspida",
     "postinstall": "rm -rf src/api && npm run generate:aspida"
   },
   "dependencies": {

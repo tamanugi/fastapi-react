@@ -20,7 +20,7 @@ const columns = [
   },
   {
     title: "出版社",
-    ataIndex: "publisher",
+    dataIndex: "publisher",
   },
   {
     title: "シリーズ",

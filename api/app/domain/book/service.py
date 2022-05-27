@@ -1,10 +1,12 @@
 from app.domain.book.model import BookModel
-from app.domain.book.schema import BookSearch
-from elasticsearch_dsl import Q
+from app.domain.book.schema import BookAggregation, BookSearch
+from elasticsearch_dsl import A, Q
+
+unlimited_size = 3000
 
 
 def __keyword_target_fileds():
-    return ["isbn", "title", "sub_title", "author", "publisher"]
+    return ["isbn", "title", "sub_title", "author", "publisher", "series"]
 
 
 def __create_dict_without_none(**kwargs):
@@ -17,6 +19,11 @@ def search(bs: BookSearch):
     for query in book_search_to_queries(bs):
         s = s.query(query)
 
+    # TODO: paginate
+    s = s[0:unlimited_size]
+
+    print(s.to_dict())
+
     return s.execute()
 
 
@@ -25,17 +32,14 @@ def book_search_to_queries(bs: BookSearch):
 
     if bs.keyword is not None:
         q = Q(
-            "query_string",
-            query=f"*{bs.keyword}*",
+            "multi_match",
+            query=f"{bs.keyword}",
             fields=__keyword_target_fileds(),
         )
         queries.append(q)
 
-    if bs.published_at_ge is not None or bs.published_at_le is not None:
-        range_dict = __create_dict_without_none(
-            gte=bs.published_at_ge, lte=bs.published_at_le
-        )
-        q = Q("range", published_at=range_dict)
+    if bs.publisher is not None:
+        q = Q("term", publisher__keyword=bs.publisher)
         queries.append(q)
 
     if bs.price_ge is not None or bs.price_le is not None:
@@ -44,3 +48,22 @@ def book_search_to_queries(bs: BookSearch):
         queries.append(q)
 
     return queries
+
+
+def aggs(field_name: str) -> list[BookAggregation]:
+    s = BookModel.search()
+
+    a = A("terms", field=f"{field_name}.keyword", size=unlimited_size)
+
+    aggs_name = f"{field_name}_aggs"
+
+    s = s.source(False)
+    s.aggs.bucket(aggs_name, a)
+
+    print(s.to_dict())
+
+    response = s.execute()
+    return [
+        BookAggregation(**agg.to_dict())
+        for agg in response.aggregations[aggs_name]["buckets"]
+    ]

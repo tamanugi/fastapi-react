@@ -1,25 +1,28 @@
 import { BasicLayout } from "@/components/layouts/BasicLayout";
-import { useSearchParams } from "react-router-dom";
 import { SearchResult } from "./SearchResult";
 import { SearchSidebar } from "./SearchSidebar";
 import useAspidaSWR from "@aspida/swr";
 import { client } from "@/lib/ApiClient";
+import { useBookSearchParams } from "./hooks";
 
 export const BookHome = () => {
-  const [searchParams] = useSearchParams();
+  const [bookSearchParams] = useBookSearchParams();
 
   const { data } = useAspidaSWR(client.api.books.search, {
-    query: { keyword: searchParams.get("keyword") as string },
+    query: bookSearchParams,
   });
+
+  console.log(data);
 
   return (
     <BasicLayout>
       <div className="flex h-full">
         <div className="fixed h-full">
-          <SearchSidebar></SearchSidebar>
+          <SearchSidebar />
         </div>
 
         <div className="ml-[300px] w-full px-12 py-6">
+          <span>検索結果: {data?.count}件</span>
           {data && <SearchResult datas={data?.books}></SearchResult>}
         </div>
       </div>

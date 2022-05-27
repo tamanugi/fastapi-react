@@ -1,26 +1,14 @@
-import { Button, Input } from "antd";
+import { Button, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 
-import { useSearchParams } from "react-router-dom";
 import { useBookSearchParams } from "./hooks";
+import { PublisherCandidates } from "./PublisherCandidates";
 import { BookSearchQuery } from "./types";
-
-type SearchConditionBoxProps = {
-  title: string;
-  name: string;
-};
-
-const SearchConditionBox = ({ title, name }: SearchConditionBoxProps) => (
-  <div className="mt- grid cursor-pointer grid-cols-2 border-b-2  py-3 hover:opacity-70">
-    <span className="font-bold">{title}</span>
-    <span>未設定</span>
-    <input type="hidden" name={name} />
-  </div>
-);
 
 export const SearchSidebar = () => {
   const [bookSearchParams, setBookSearchParams] = useBookSearchParams();
   const [state, setState] = useState<BookSearchQuery>({});
+  const [modalVisible, setModalVisble] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,12 +44,34 @@ export const SearchSidebar = () => {
           検索する
         </Button>
 
-        <SearchConditionBox title="著者" name="author"></SearchConditionBox>
-        <SearchConditionBox
-          title="出版社"
-          name="publisher"
-        ></SearchConditionBox>
+        <span className="border-t-2" />
+
+        <div
+          className="mt- grid cursor-pointer grid-cols-2 border-b-2  py-3 hover:opacity-70"
+          onClick={() => setModalVisble(true)}
+        >
+          <span className="font-bold">出版社</span>
+          <span>{state.publisher || "未設定"}</span>
+          <input type="hidden" name="publisher" />
+        </div>
       </div>
+
+      <Modal
+        className="max-h-[50vh]"
+        visible={modalVisible}
+        onCancel={() => {
+          setModalVisble(false);
+        }}
+        footer={null /* hide button */}
+        width={1200}
+      >
+        <PublisherCandidates
+          setPublisher={(publisher) => {
+            setState({ publisher });
+            setModalVisble(false);
+          }}
+        />
+      </Modal>
     </form>
   );
 };
