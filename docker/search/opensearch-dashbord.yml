@@ -1,0 +1,4 @@
+# Description:
+# No security configuration for OpenSearch Dashboards
+
+server.host: "0"

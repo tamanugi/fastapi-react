@@ -33,7 +33,8 @@ services:
       - 5432:5432
 
   search-engine:
-    image: opensearchproject/opensearch:1.3.2
+    build:
+      context: ./docker/search
     environment:
       - TZ=${OS_TIMEZONE}
       - discovery.type=single-node
