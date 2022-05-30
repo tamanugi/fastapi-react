@@ -6,5 +6,5 @@ WORKDIR /api
 # pipを使ってpoetryをインストール
 RUN pip install poetry
 
-# uvicornのサーバーを立ち上げる
-CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload"]
+# 
+RUN poetry config virtualenvs.in-project true

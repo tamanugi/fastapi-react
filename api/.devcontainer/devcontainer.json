@@ -1,0 +1,28 @@
+{
+  "name": "api",
+  "dockerComposeFile": [
+    "../../docker-compose.yaml",
+    "../../docker-compose.override.yaml"
+  ],
+  "service": "api",
+  "shutdownAction": "none",
+  "workspaceFolder": "/workspace/api",
+  "extensions": ["ms-python.python"],
+  "postCreateCommand": "poetry install",
+  "settings": {
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "python.linting.flake8Args": [
+      "--max-line-length=88",
+      "--ignore=E203,W503,W504"
+    ],
+    "python.formatting.blackArgs": ["--line-length=88"],
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  }
+}

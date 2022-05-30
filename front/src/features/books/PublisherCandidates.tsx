@@ -11,7 +11,7 @@ export const PublisherCandidates = ({ setPublisher }: Props) => {
 
   return (
     <div
-      className="grid gap-3 max-h-[60vh] overflow-auto mt-10"
+      className="mt-10 grid max-h-[60vh] gap-3 overflow-auto"
       style={styles["grid-wrapper"]}
     >
       {data?.candidates.map((item, i) => (

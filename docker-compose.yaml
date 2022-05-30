@@ -5,9 +5,11 @@ services:
     build:
       context: ./docker/api
     volumes:
-      - ./api:/api
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: bash -c "poetry install && poetry run uvicorn app.main:app --host 0.0.0.0 --reload"
+      # .gitを含めるためにルートごとマウントする
+      - ./:/workspace:cached
+      - ./docker/api/init.sh:/init.sh
+    working_dir: "/workspace/api"
+    command: "sh /init.sh"
     env_file:
       - .env
     depends_on:
@@ -15,11 +17,12 @@ services:
 
   front:
     image: node:16
-    command:  sh -c "npm install && npm run dev"
-    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    working_dir: "/workspace/front"
     volumes:
-      - ./front:/app:chached
-      - front_node_modules:/app/node_modules
+      # .gitを含めるためにルートごとマウントする
+      - ./:/workspace:cached
+      - front_node_modules:/workspace/front/node_modules
     depends_on:
       - api
 
