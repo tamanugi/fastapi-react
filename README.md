@@ -28,7 +28,7 @@ FastAPI+React のアプリケーションサンプルです。
 | Http Client      | [axios](https://axios-http.com/)                    |
 |                  | [Aspida](https://github.com/aspida/aspida)          |
 |                  | [SWR](https://swr.vercel.app/ja)                    |
-| Router           | [React Router]()                                    |
+| Router           | [React Router](https://reactrouter.com/)            |
 | State Management | TODO                                                |
 | Design Framework | [Ant Design](https://ant.design/)                   |
 | CSS Library      | [Tailwindcss](https://tailwindcss.com/)             |
@@ -72,3 +72,72 @@ Backend, Frontend 共に `VSCode Remote Containers` を使用することを想�
 1. `api` `front` ディレクトリを VSCode で開く
 2. 右下に `Folder contains a Dev Container configuration file. Reopen folder to develop in a container` と表示されるので、`Reopen in container` を選択する
 3. Container 内で VSCode が起動するので普通に開発を行う
+
+## ディレクトリ構成
+
+```sh
+├── README.md
+├── api/ # FastAPIのコードを管理
+├── docker/ # Dockerfileなどを格納
+├── docker-compose.override.yaml
+├── docker-compose.yaml
+├── front/ # Reactのコードを管理
+└── migrations/ # Migration用のファイルなどを管理する
+```
+
+### Backend のディレクトリ構成
+
+```sh
+api
+├── README.rst
+├── app/
+│   ├── core/ # DBやOpenSearchへの接続を管理
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   └── search_engine.py
+│   ├── domain/ # 各ドメインのアプリケーションコードを管理する
+│   │   ├── book
+│   │   │   ├── model.py # DBやOpenSearchなどのエンティティーなど
+│   │   │   ├── routes.py # ドメインのルーティング
+│   │   │   ├── schema.py # リクエスト、レスポンスなどを主に管理
+│   │   │   └── service.py # ユースケースロジックを記述する
+│   │   └── shared # ドメイン間で共通のコードを管理する
+│   └── main.py # FatAPIのメインロジック
+├── poetry.lock
+├── pyproject.toml
+└── tests/
+```
+
+### Frontend のディレクトリ構成
+
+```sh
+front
+├── aspida.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── src
+│   ├── main.tsx
+│   ├── App.css
+│   ├── App.tsx
+│   ├── index.css
+│   ├── api # openapi2aspidaで生成するAPIクライアントのコード
+│   ├── components # 複数機能で共通のコンポーネントを管理する
+│   │   ├── layouts
+│   │   └── ui
+│   ├── features # 各機能ごとにUIコンポーネントやロジックを管理する
+│   │   └── books
+│   ├── lib
+│   ├── providers
+│   ├── routes # ルーティング
+│   ├── utils # UIに関係しないutil系のコードを管理する
+│   └── vite-env.d.ts
+├── tailwind.config.js
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+```
+
+参考: https://zenn.dev/meijin/articles/bulletproof-react-is-best-architecture
