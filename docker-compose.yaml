@@ -22,6 +22,10 @@ services:
     volumes:
       # .gitを含めるためにルートごとマウントする
       - ./:/workspace:cached
+
+      # Docker内のnode_modulesをホストマシンに持ち込ませない & node_modulesをキャッシュする
+      # FYI: https://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
+      # > The node_modules Volume Trick
       - front_node_modules:/workspace/front/node_modules
     depends_on:
       - api
