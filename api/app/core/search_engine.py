@@ -7,7 +7,7 @@ port = 9200
 auth = ("admin", "admin")  # For testing only. Don't store credentials in code.
 
 
-def set_up():
+def set_up() -> None:
     client = OpenSearch(
         hosts=[{"host": host, "port": port}],
         http_compress=True,  # enables gzip compression for request bodies

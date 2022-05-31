@@ -1,3 +1,5 @@
+from typing import Any
+
 from app.domain.book.model import BookModel
 from app.domain.book.schema import BookAggregation, BookSearch
 from elasticsearch_dsl import A, Q
@@ -5,15 +7,15 @@ from elasticsearch_dsl import A, Q
 unlimited_size = 3000
 
 
-def __keyword_target_fileds():
+def __keyword_target_fileds() -> list[str]:
     return ["isbn", "title", "sub_title", "author", "publisher", "series"]
 
 
-def __create_dict_without_none(**kwargs):
+def __create_dict_without_none(**kwargs: Any) -> dict:
     return {k: v for k, v in kwargs.items() if v is not None}
 
 
-def search(bs: BookSearch):
+def search(bs: BookSearch) -> Any:
     s = BookModel.search()
 
     for query in book_search_to_queries(bs):
@@ -27,7 +29,7 @@ def search(bs: BookSearch):
     return s.execute()
 
 
-def book_search_to_queries(bs: BookSearch):
+def book_search_to_queries(bs: BookSearch) -> list[Q]:
     queries = []
 
     if bs.keyword is not None:

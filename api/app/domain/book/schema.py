@@ -21,9 +21,9 @@ class BookRead(BaseModel):
     series: str = Field(title="シリーズ", example="", default="")
     price: int = Field(title="本体価格", example=1300, default=0)
 
-    @staticmethod
-    def from_model(model: BookModel):
-        return BookRead(**model.to_dict())
+    @classmethod
+    def from_model(cls, model: BookModel) -> "BookRead":
+        return cls(**model.to_dict())
 
 
 class BookSearchResponse(BaseModel):

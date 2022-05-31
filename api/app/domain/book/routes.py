@@ -12,16 +12,16 @@ router = APIRouter(prefix="/books", tags=["books"])
 
 
 @router.get("/search", response_model=BookSearchResponse)
-def search_books(query: BookSearch = Depends()):
+def search_books(query: BookSearch = Depends()) -> BookSearchResponse:
     response = book_search_service.search(query)
-    books = [BookRead.from_model(book_model) for book_model in response]
+    books = [BookRead().from_model(book_model) for book_model in response]
     return BookSearchResponse(books=books, count=len(books))
 
 
 @router.get(
     "/search/conditions/publisher", response_model=BookConditionPublisherResponse
 )
-def search_conditions_publisher():
+def search_conditions_publisher() -> BookConditionPublisherResponse:
     aggs = book_search_service.aggs("publisher")
 
     print(aggs)
