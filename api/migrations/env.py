@@ -1,6 +1,9 @@
+import os
 from logging.config import fileConfig
 
 from alembic import context
+from app.core.database import Base
+from app.domain.book.model import BookFavorite
 from sqlalchemy import engine_from_config, pool
 
 # this is the Alembic Config object, which provides
@@ -16,7 +19,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = [BookFavorite.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -36,7 +39,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = os.getenv("SQLALCHEMY_DATABASE_URL")
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -55,8 +58,10 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
+    cfg = config.get_section(config.config_ini_section)
+    cfg["sqlalchemy.url"] = os.getenv("SQLALCHEMY_DATABASE_URL")
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
+        cfg,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

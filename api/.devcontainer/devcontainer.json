@@ -24,6 +24,7 @@
     "python.formatting.blackArgs": ["--line-length=88"],
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
-    }
+    },
+    "python.linting.ignorePatterns": [ "migrations/**/*.py" ]
   }
 }
