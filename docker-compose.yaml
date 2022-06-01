@@ -9,7 +9,7 @@ services:
       - ./:/workspace:cached
       - ./docker/api/init.sh:/init.sh
     working_dir: "/workspace/api"
-    command: "sh /init.sh"
+    command: sh -c "poetry install && poetry run uvicorn app.main:app --host 0.0.0.0 --reload"
     env_file:
       - .env
     depends_on:
