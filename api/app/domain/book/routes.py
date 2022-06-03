@@ -23,6 +23,4 @@ def search_books(query: BookSearch = Depends()) -> BookSearchResponse:
 )
 def search_conditions_publisher() -> BookConditionPublisherResponse:
     aggs = book_search_service.aggs("publisher")
-
-    print(aggs)
     return BookConditionPublisherResponse(candidates=aggs)

@@ -24,8 +24,6 @@ def search(bs: BookSearch) -> Any:
     # TODO: paginate
     s = s[0:unlimited_size]
 
-    print(s.to_dict())
-
     return s.execute()
 
 
@@ -61,8 +59,6 @@ def aggs(field_name: str) -> list[BookAggregation]:
 
     s = s.source(False)
     s.aggs.bucket(aggs_name, a)
-
-    print(s.to_dict())
 
     response = s.execute()
     return [
