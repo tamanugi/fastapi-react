@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core import search_engine
 from app.domain.book import routes as book_router
+from app.domain.search_condition import routes as search_condition_router
 
 # Opensearch Client setup
 search_engine.set_up()
@@ -24,3 +25,4 @@ app.add_middleware(
 
 
 app.include_router(book_router.router, prefix="/api")
+app.include_router(search_condition_router.router, prefix="/api")

@@ -2,8 +2,7 @@ import os
 from logging.config import fileConfig
 
 from alembic import context
-from app.core.database import Base
-from app.domain.book.model import BookFavorite
+from app.domain.search_condition.model import SearchCondition
 from sqlalchemy import engine_from_config, pool
 
 # this is the Alembic Config object, which provides
@@ -19,7 +18,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [BookFavorite.metadata]
+target_metadata = [SearchCondition.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
