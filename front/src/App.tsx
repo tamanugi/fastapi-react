@@ -2,12 +2,15 @@ import { AppProvider } from "@/providers/app";
 import { AppRoutes } from "@/routes";
 import "antd/dist/antd.css";
 import "./App.css";
+import { AuthProvider } from "./providers/auth";
 
 function App() {
   return (
-    <AppProvider>
-      <AppRoutes />
-    </AppProvider>
+    <AuthProvider>
+      <AppProvider>
+        <AppRoutes />
+      </AppProvider>
+    </AuthProvider>
   );
 }
 
